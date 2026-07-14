@@ -1,0 +1,32 @@
+.bnb-button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--bnb-navy);
+    color: var(--bnb-white);
+    transition: background 0.15s ease, transform 0.05s ease;
+  
+    &:hover:not(:disabled) {
+      background: var(--bnb-navy-dark);
+    }
+  
+    &:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+  
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  
+    &.bnb-btn--savings {
+      background: var(--bnb-red);
+    }
+  
+    &.bnb-btn--savings:hover:not(:disabled) {
+      background: #a30d26; // manually darkened red
+    }
+  }

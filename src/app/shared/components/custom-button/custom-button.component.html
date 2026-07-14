@@ -1,0 +1,10 @@
+<button
+    [type]="type"
+    class="bnb-button"
+    [class.bnb-btn--chequing]="accountType === 'chequing'"
+    [class.bnb-btn--savings]="accountType === 'savings'"
+    [disabled]="disabled"
+    [attr.aria-disabled]="disabled"
+    (click)="onClick()">
+    {{ label }}
+</button>
