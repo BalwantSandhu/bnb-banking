@@ -1,0 +1,22 @@
+:root {
+    --bnb-navy: #0B2545;
+    --bnb-navy-dark: #071A33;
+    --bnb-red: #C8102E;
+    --bnb-white: #FFFFFF;
+    --bnb-grey-bg: #F4F6F8;
+    --bnb-grey-text: #4A5568;
+    --bnb-border: #E2E8F0;
+    --bnb-success: #1B7F4C;
+    --bnb-focus-ring: #2563EB;
+  }
+  
+  body {
+    background: var(--bnb-grey-bg);
+    color: #1A202C;
+    font-family: 'Roboto', 'Segoe UI', sans-serif;
+  }
+  
+  :focus-visible {
+    outline: 3px solid var(--bnb-focus-ring);
+    outline-offset: 2px;
+  }
