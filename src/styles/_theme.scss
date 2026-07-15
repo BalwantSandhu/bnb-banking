@@ -1,22 +1,52 @@
 :root {
-    --bnb-navy: #0B2545;
-    --bnb-navy-dark: #071A33;
-    --bnb-red: #C8102E;
-    --bnb-white: #FFFFFF;
-    --bnb-grey-bg: #F4F6F8;
-    --bnb-grey-text: #4A5568;
-    --bnb-border: #E2E8F0;
-    --bnb-success: #1B7F4C;
-    --bnb-focus-ring: #2563EB;
-  }
-  
-  body {
-    background: var(--bnb-grey-bg);
-    color: #1A202C;
-    font-family: 'Roboto', 'Segoe UI', sans-serif;
-  }
-  
-  :focus-visible {
-    outline: 3px solid var(--bnb-focus-ring);
-    outline-offset: 2px;
-  }
+  // Brand
+  --bnb-navy: #0B2545;
+  --bnb-navy-dark: #071A33;
+  --bnb-red: #C8102E;
+  --bnb-red-dark: #8f0c1f;
+  --bnb-white: #FFFFFF;
+
+  // Neutrals
+  --bnb-grey-bg: #F4F6FA;
+  --bnb-grey-text: #4A5568;
+  --bnb-grey-muted: #94A3B8;
+  --bnb-border: #E2E8F0;
+
+  // Feedback
+  --bnb-success: #1B7F4C;
+  --bnb-focus-ring: #2563EB;
+
+  // Elevation — layered, soft shadows instead of flat borders
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
+
+  // Radius scale
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  // Spacing scale
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+}
+
+body {
+  background: var(--bnb-grey-bg);
+  color: #1A202C;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 3px solid var(--bnb-focus-ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+// Smooth transitions app-wide for interactive elements
+button, input, .radio-card, a {
+  transition: all 0.18s ease;
+}

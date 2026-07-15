@@ -1,1 +1,76 @@
-<p>create-account works!</p>
+<div class="create-account-page">
+    <h1>Open a New Account</h1>
+    <p class="subtitle">Fill in the details below to create a new bank account.</p>
+  
+    <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" novalidate>
+  
+      <div class="form-field">
+        <label for="name">Account Holder Name</label>
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          placeholder="Enter full name"
+          [attr.aria-invalid]="name?.invalid && (name?.touched || submitted)"
+          aria-describedby="name-error"
+        />
+        <p class="hint-text">Enter the account name (2-30 characters)</p>
+        <p id="name-error" class="error-text" *ngIf="name?.invalid && (name?.touched || submitted)" role="alert">
+          <span *ngIf="name?.errors?.['required']">Account name is required.</span>
+          <span *ngIf="name?.errors?.['minlength']">Name must be at least 2 characters.</span>
+          <span *ngIf="name?.errors?.['maxlength']">Name cannot exceed 30 characters.</span>
+        </p>
+      </div>
+  
+      <fieldset class="form-field">
+        <legend>Account Type</legend>
+  
+        <label class="radio-card" [class.radio-card--selected]="selectedType === 'chequing'">
+          <div class="radio-title">
+            <input type="radio" formControlName="type" value="chequing" />
+            <span>Chequing Account</span>
+          </div>
+          <p class="radio-desc">For everyday transactions and payments</p>
+        </label>
+  
+        <label class="radio-card" [class.radio-card--selected]="selectedType === 'savings'">
+          <div class="radio-title">
+            <input type="radio" formControlName="type" value="savings" />
+            <span>Savings Account</span>
+          </div>
+          <p class="radio-desc">For saving money with interest</p>
+        </label>
+      </fieldset>
+  
+      <div class="form-field">
+        <label for="initialBalance">Initial Balance ($)</label>
+        <input
+          id="initialBalance"
+          type="number"
+          formControlName="initialBalance"
+          min="0"
+          step="0.01"
+          [attr.aria-invalid]="initialBalance?.invalid && (initialBalance?.touched || submitted)"
+          aria-describedby="balance-error"
+        />
+        <p class="hint-text">Minimum balance: $0.00</p>
+        <p id="balance-error" class="error-text" *ngIf="initialBalance?.invalid && (initialBalance?.touched || submitted)" role="alert">
+          <span *ngIf="initialBalance?.errors?.['required']">Initial balance is required.</span>
+          <span *ngIf="initialBalance?.errors?.['min']">Balance cannot be negative.</span>
+        </p>
+      </div>
+  
+      <!-- Live summary card — reinforces the selected type visually -->
+      <div class="type-summary" [ngClass]="'type-summary--' + selectedType">
+        <p class="type-summary-label">SELECTED ACCOUNT TYPE</p>
+        <p class="type-summary-title">{{ selectedType === 'chequing' ? 'Chequing Account' : 'Savings Account' }}</p>
+      </div>
+  
+      <app-custom-button
+        [label]="selectedType === 'chequing' ? 'Create Chequing Account' : 'Create Savings Account'"
+        type="submit"
+        [accountType]="selectedType">
+      </app-custom-button>
+  
+    </form>
+  </div>
