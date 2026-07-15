@@ -1,1 +1,61 @@
-<p>transaction-history works!</p>
+<div class="transaction-history-page">
+    <h1>Transaction History</h1>
+    <p class="subtitle">View and search transactions across all your accounts.</p>
+  
+    <div class="controls">
+      <div class="form-field">
+        <label for="accountSelect">Account</label>
+        <select
+          id="accountSelect"
+          [ngModel]="selectedAccountId()"
+          (ngModelChange)="onAccountChange($event)">
+          <option value="">All Accounts</option>
+          <option *ngFor="let acc of accounts()" [value]="acc.id">
+            {{ acc.name }} ({{ acc.type }})
+          </option>
+        </select>
+      </div>
+  
+      <div class="form-field">
+        <label for="searchTerm">Search</label>
+        <input
+          id="searchTerm"
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Search by amount, description, or account..."
+          aria-label="Search transactions"
+        />
+      </div>
+    </div>
+  
+    <div class="filter-chips" role="group" aria-label="Filter by transaction type">
+      <button type="button" class="chip" [class.chip--active]="activeFilter() === 'all'" (click)="setFilter('all')">All</button>
+      <button type="button" class="chip" [class.chip--active]="activeFilter() === 'in'" (click)="setFilter('in')">Money In</button>
+      <button type="button" class="chip" [class.chip--active]="activeFilter() === 'out'" (click)="setFilter('out')">Money Out</button>
+    </div>
+  
+    <div class="tx-list">
+      <p class="result-count" *ngIf="filteredTransactions.length !== totalCount || totalCount > 0">
+        Showing {{ filteredTransactions.length }} of {{ totalCount }} transactions
+      </p>
+  
+      <div class="tx-row" *ngFor="let tx of filteredTransactions" [class.tx-row--negative]="tx.type === 'transfer-out'">
+        <div class="tx-main">
+          <span class="tx-type">{{ tx.type | transactionType }}</span>
+          <span class="tx-desc">{{ tx.description }}</span>
+          <span class="tx-account" *ngIf="!selectedAccountId()">{{ getAccountName(tx.accountId) }}</span>
+        </div>
+        <div class="tx-side">
+          <span class="tx-amount">{{ tx.type === 'transfer-out' ? '-' : '+' }}${{ tx.amount | number:'1.2-2' }}</span>
+          <span class="tx-date">{{ tx.timestamp | date:'MMM d, y, h:mm a' }}</span>
+        </div>
+      </div>
+  
+      <p class="empty-state" *ngIf="filteredTransactions.length === 0 && totalCount === 0">
+        No transactions yet. Create an account or make a transfer to get started.
+      </p>
+      <p class="empty-state" *ngIf="filteredTransactions.length === 0 && totalCount > 0">
+        No transactions match your search or filter.
+      </p>
+    </div>
+  </div>

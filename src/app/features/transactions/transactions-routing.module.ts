@@ -8,7 +8,7 @@ const routes: Routes = [
     path: 'transfer', component: TransferFundsComponent
   },
   {
-    path: 'history/:accountId', component: TransactionHistoryComponent
+    path: 'history', component: TransactionHistoryComponent
   },
   {
     path: '', redirectTo: 'transfer', pathMatch: 'full'
