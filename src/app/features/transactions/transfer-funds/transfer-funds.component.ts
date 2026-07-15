@@ -1,8 +1,17 @@
 import { Component, computed, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AccountService } from '../../../core/services/account.service';
 import { Router } from '@angular/router';
+import { AccountService } from '../../../core/services/account.service';
 import { sufficientBalanceValidator } from '../../../shared/validators/sufficient-balance.validator';
+import { sameAccountValidator } from '../../../shared/validators/same-account.validator';
+
+interface TransferSummary {
+  fromName: string;
+  toName: string;
+  amount: number;
+  note: string;
+  timestamp: Date;
+}
 
 @Component({
   selector: 'app-transfer-funds',
@@ -15,24 +24,28 @@ export class TransferFundsComponent {
   submitted = false;
   resultMessage = signal<string | null>(null);
   resultSuccess = signal<boolean>(false);
+  lastTransfer = signal<TransferSummary | null>(null);
   accounts;
 
   constructor(
     private fb: FormBuilder,
     private accountService: AccountService,
     private router: Router
-  ){
-
+  ) {
     this.accounts = this.accountService.accounts; //signal, whcih reads directly in template
 
     this.transferForm = this.fb.group(
       {
         fromAccountId: ['', Validators.required],
         toAccountId: ['', Validators.required],
-        amount: [null, [Validators.required, Validators.min(0.01)]]
+        amount: [null, [Validators.required, Validators.min(0.01)]],
+        note: ['', Validators.maxLength(100)]
       },
       {
-        validators: sufficientBalanceValidator(() => this.accountService.accounts())
+        validators: [
+          sameAccountValidator(),
+          sufficientBalanceValidator(() => this.accountService.accounts())
+        ]
       }
     );
   }
@@ -40,30 +53,54 @@ export class TransferFundsComponent {
   get fromAccountId() { return this.transferForm.get('fromAccountId'); }
   get toAccountId() { return this.transferForm.get('toAccountId'); }
   get amount() { return this.transferForm.get('amount'); }
+  get note() { return this.transferForm.get('note'); }
 
-   // Computed signal: available balance of whichever account is currently selected as "from"
-   selectedFromBalance = computed(() => {
+  selectedFromBalance = computed(() => {
     const id = this.transferForm?.get('fromAccountId')?.value;
     return this.accountService.getAccountById(id)?.balance ?? null;
   });
 
-  onSubmit(): void{
+  availableToAccounts() {
+    const fromId = this.transferForm.get('fromAccountId')?.value;
+    return this.accounts().filter(acc => acc.id !== fromId);
+  }
+
+  onFromAccountChange(): void {
+    const fromId = this.transferForm.get('fromAccountId')?.value;
+    const toId = this.transferForm.get('toAccountId')?.value;
+    if (fromId && toId && fromId === toId) {
+      this.transferForm.get('toAccountId')?.setValue('');
+    }
+  }
+
+  onSubmit(): void {
     this.submitted = true;
     this.resultMessage.set(null);
 
-    if(this.transferForm.invalid){
+    if (this.transferForm.invalid) {
       this.transferForm.markAllAsTouched();
       return;
     }
 
-    const { fromAccountId, toAccountId, amount } = this.transferForm.value;
-    const result = this.accountService.transferFunds(fromAccountId, toAccountId, amount);
+    const { fromAccountId, toAccountId, amount, note } = this.transferForm.value;
+    const fromAccount = this.accountService.getAccountById(fromAccountId);
+    const toAccount = this.accountService.getAccountById(toAccountId);
+
+    const result = this.accountService.transferFunds(fromAccountId, toAccountId, amount, note);
 
     this.resultSuccess.set(result.success);
     this.resultMessage.set(result.message);
 
-    if(result.success){
-      this.transferForm.reset({ fromAccountId: '', toAccountId: '', amount: null });
+    if (result.success) {
+      this.lastTransfer.set({
+        fromName: fromAccount?.name ?? '',
+        toName: toAccount?.name ?? '',
+        amount,
+        note: note?.trim() || '',
+        timestamp: new Date()
+      });
+
+      this.transferForm.reset({ fromAccountId: '', toAccountId: '', amount: null, note: '' });
       this.submitted = false;
     }
   }

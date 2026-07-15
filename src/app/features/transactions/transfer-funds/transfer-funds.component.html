@@ -1,65 +1,110 @@
 <div class="transfer-funds-page">
     <h1>Transfer Funds</h1>
     <p class="subtitle">Move money between your accounts securely.</p>
-
+  
     <form [formGroup]="transferForm" (ngSubmit)="onSubmit()" novalidate>
-
-        <div class="form-field">
-            <label for="fromAccountId">FromAccount</label>
-            <select id="fromAccountId" formControlName="fromAccountId"
-                [attr.aria-invalid]="fromAccountId?.invalid && (fromAccountId?.touched || submitted)">
-                <option value="" disabled>Select Account</option>
-                <option *ngFor="let acc of accounts()" [value]="acc.id">
-                    {{ acc.name }} ({{ acc.type }}) - ${{ acc.balance | number:'1.2-2' }}
-                </option>
-            </select>
-            <p class="hint-text" *ngIf="selectedFromBalance() !== null">
-                Available balance: ${{ selectedFromBalance() | number:'1.2-2' }}
-            </p>
-            <p class="error-text" *ngIf="fromAccountId?.invalid && (fromAccountId?.touched || submitted)" role="alert">
-                Please select the source account.
-            </p>
-        </div>
-
-        <div class="form-field">
-            <label for="toAccountId">To Account</label>
-            <select id="toAccountId" formControlName="toAccountId"
-              [attr.aria-invalid]="toAccountId?.invalid && (toAccountId?.touched || submitted)">
-              <option value="" disabled>Select account</option>
-              <option *ngFor="let acc of accounts()" [value]="acc.id">
-                {{ acc.name }} ({{ acc.type }})
-              </option>
-            </select>
-            <p class="error-text" *ngIf="toAccountId?.invalid && (toAccountId?.touched || submitted)" role="alert">
-              Please select the destination account.
-            </p>
-        </div>
-
-        <div class="form-field">
-            <label for="amount">Amount ($)</label>
-            <input
-                id="amount"
-                type="number"
-                formControlName="amount"
-                min="0.01"
-                step="0.01"
-                [attr.aria-invalid]="amount?.invalid && (amount?.touched || submitted)"
-                aria-describedby="amount-error"
-            />
-            <p id="amount-error" class="error-text" *ngIf="amount?.invalid && (amount?.touched || submitted)" role="alert">
-                <span *ngIf="amount?.errors?.['required']">Amount is required</span>
-                <span *ngIf="amount?.errors?.['min']">Amount must be greater than $0</span>
-            </p>
-            <p class="error-text" *ngIf="transferForm.errors?.['insufficientBalance'] && (amount?.touched || submitted)" role="alert">
-                Insufficient funds. Available: ${{ transferForm.errors?.['insufficientBalance']?.available | number:'1.2-2' }},
-                requested: ${{ transferForm.errors?.['insufficientBalance']?.requested | number:'1.2-2' }}.
-            </p>
-        </div>
-
-        <app-custom-button label="Transfer Funds" type="submit"></app-custom-button>
-
-        <p class="result-message" [class.result-message--success]="resultSuccess()" [class.result-message--error]="!resultSuccess()" *ngIf="resultMessage()" role="status">
-            {{ resultMessage() }}
+  
+      <div class="form-field">
+        <label for="fromAccountId">From Account</label>
+        <select id="fromAccountId" formControlName="fromAccountId" (change)="onFromAccountChange()"
+          [attr.aria-invalid]="fromAccountId?.invalid && (fromAccountId?.touched || submitted)">
+          <option value="" disabled>Select account</option>
+          <option *ngFor="let acc of accounts()" [value]="acc.id">
+            {{ acc.name }} ({{ acc.type }}) — ${{ acc.balance | number:'1.2-2' }}
+          </option>
+        </select>
+        <p class="hint-text" *ngIf="selectedFromBalance() !== null">
+          Available balance: ${{ selectedFromBalance() | number:'1.2-2' }}
         </p>
+        <p class="error-text" *ngIf="fromAccountId?.invalid && (fromAccountId?.touched || submitted)" role="alert">
+          Please select the source account.
+        </p>
+      </div>
+  
+      <div class="form-field">
+        <label for="toAccountId">To Account</label>
+        <select id="toAccountId" formControlName="toAccountId"
+          [attr.aria-invalid]="toAccountId?.invalid && (toAccountId?.touched || submitted)">
+          <option value="" disabled>Select account</option>
+          <option *ngFor="let acc of availableToAccounts()" [value]="acc.id">
+            {{ acc.name }} ({{ acc.type }})
+          </option>
+        </select>
+        <p class="error-text" *ngIf="toAccountId?.invalid && (toAccountId?.touched || submitted)" role="alert">
+          Please select the destination account.
+        </p>
+        <p class="error-text" *ngIf="transferForm.errors?.['sameAccount'] && (toAccountId?.touched || submitted)" role="alert">
+          From and To accounts cannot be the same.
+        </p>
+      </div>
+  
+      <div class="form-field">
+        <label for="amount">Amount ($)</label>
+        <input
+          id="amount"
+          type="number"
+          formControlName="amount"
+          min="0.01"
+          step="0.01"
+          [attr.aria-invalid]="amount?.invalid && (amount?.touched || submitted)"
+          aria-describedby="amount-error"
+        />
+        <p id="amount-error" class="error-text" *ngIf="amount?.invalid && (amount?.touched || submitted)" role="alert">
+          <span *ngIf="amount?.errors?.['required']">Amount is required.</span>
+          <span *ngIf="amount?.errors?.['min']">Amount must be greater than $0.</span>
+        </p>
+        <p class="error-text" *ngIf="transferForm.errors?.['insufficientBalance'] && (amount?.touched || submitted)" role="alert">
+          Insufficient funds. Available: ${{ transferForm.errors?.['insufficientBalance']?.available | number:'1.2-2' }},
+          requested: ${{ transferForm.errors?.['insufficientBalance']?.requested | number:'1.2-2' }}.
+        </p>
+      </div>
+  
+      <div class="form-field">
+        <label for="note">Message <span class="optional-tag">(optional)</span></label>
+        <input
+          id="note"
+          type="text"
+          formControlName="note"
+          placeholder="What's this for?"
+          maxlength="100"
+          [attr.aria-invalid]="note?.invalid && (note?.touched || submitted)"
+          aria-describedby="note-error"
+        />
+        <p class="hint-text">{{ note?.value?.length || 0 }}/100</p>
+        <p id="note-error" class="error-text" *ngIf="note?.invalid && (note?.touched || submitted)" role="alert">
+          Message cannot exceed 100 characters.
+        </p>
+      </div>
+  
+      <app-custom-button label="Transfer Funds" type="submit"></app-custom-button>
+  
+      <p class="result-message" [class.result-message--success]="resultSuccess()" [class.result-message--error]="!resultSuccess()" *ngIf="resultMessage()" role="status">
+        {{ resultMessage() }}
+      </p>
+  
     </form>
-</div>
+  
+    <div class="transfer-summary" *ngIf="lastTransfer() as summary">
+      <p class="transfer-summary-label">TRANSFER SUMMARY</p>
+      <div class="transfer-summary-row">
+        <span>From</span>
+        <strong>{{ summary.fromName }}</strong>
+      </div>
+      <div class="transfer-summary-row">
+        <span>To</span>
+        <strong>{{ summary.toName }}</strong>
+      </div>
+      <div class="transfer-summary-row">
+        <span>Amount</span>
+        <strong>${{ summary.amount | number:'1.2-2' }}</strong>
+      </div>
+      <div class="transfer-summary-row" *ngIf="summary.note">
+        <span>Message</span>
+        <strong>{{ summary.note }}</strong>
+      </div>
+      <div class="transfer-summary-row">
+        <span>Date</span>
+        <strong>{{ summary.timestamp | date:'medium' }}</strong>
+      </div>
+    </div>
+  </div>

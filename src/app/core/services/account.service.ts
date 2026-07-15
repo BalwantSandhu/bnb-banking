@@ -77,7 +77,7 @@ export class AccountService {
     return this.accountsSignal().find(acc => acc.id === id);
   }
 
-  transferFunds(fromId: string, toId: string, amount: number): { success: boolean; message: string } {
+  transferFunds(fromId: string, toId: string, amount: number, note?: string): { success: boolean; message: string } {
     const from = this.getAccountById(fromId);
     const to = this.getAccountById(toId);
 
@@ -105,8 +105,12 @@ export class AccountService {
     const updatedFrom = this.getAccountById(fromId)!;
     const updatedTo = this.getAccountById(toId)!;
 
-    this.recordTransaction(fromId, 'transfer-out', amount, updatedFrom.balance, `Transfer to ${to.name}`);
-    this.recordTransaction(toId, 'transfer-in', amount, updatedTo.balance, `Transfer from ${from.name}`);
+    const trimmedNote = note?.trim();
+    const outDesc = trimmedNote ? `Transfer to ${to.name} — "${trimmedNote}"` : `Transfer to ${to.name}`;
+    const inDesc = trimmedNote ? `Transfer from ${from.name} — "${trimmedNote}"` : `Transfer from ${from.name}`;
+
+    this.recordTransaction(fromId, 'transfer-out', amount, updatedFrom.balance, outDesc);
+    this.recordTransaction(toId, 'transfer-in', amount, updatedTo.balance, inDesc);
 
     return { success: true, message: 'Transfer successful.' };
   }
