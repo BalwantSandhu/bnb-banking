@@ -1,0 +1,87 @@
+.transfer-funds-page {
+    max-width: 640px;
+    margin: var(--space-lg) auto;
+    padding: var(--space-lg);
+    background: var(--bnb-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  h1 {
+    color: var(--bnb-navy);
+    font-size: 1.85rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.35rem;
+  }
+
+  .subtitle {
+    color: var(--bnb-grey-text);
+    margin-bottom: var(--space-md);
+    font-size: 0.95rem;
+  }
+
+  .form-field {
+    margin-bottom: var(--space-md);
+  }
+  
+  label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+    color: var(--bnb-grey-text);
+  }
+
+  select, input[type="number"] {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1.5px solid var(--bnb-border);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    font-family: inherit;
+    box-sizing: border-box;
+    background: #FAFBFC;
+  
+    &:focus {
+      border-color: var(--bnb-navy);
+      background: var(--bnb-white);
+      box-shadow: 0 0 0 4px rgba(11, 37, 69, 0.08);
+      outline: none;
+    }
+  
+    &[aria-invalid="true"] {
+      border-color: var(--bnb-red);
+      background: #FFF5F5;
+    }
+  }
+
+  .hint-text {
+    font-size: 0.8rem;
+    color: var(--bnb-grey-muted);
+    margin-top: 0.35rem;
+  }
+
+  .error-text {
+    color: var(--bnb-red);
+    font-size: 0.85rem;
+    margin-top: 0.4rem;
+    font-weight: 500;
+  }
+
+  .result-message {
+    margin-top: var(--space-md);
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    text-align: center;
+  
+    &--success {
+      background: rgba(27, 127, 76, 0.1);
+      color: var(--bnb-success);
+    }
+    &--error {
+      background: rgba(200, 16, 46, 0.08);
+      color: var(--bnb-red);
+    }
+  }
