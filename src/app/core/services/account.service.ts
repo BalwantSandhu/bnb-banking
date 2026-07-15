@@ -1,29 +1,61 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal, effect } from '@angular/core';
 import { Account, AccountType } from '../models/account.model';
 import { Transaction } from '../models/transaction.model';
+import { StorageService } from './storage.service';
+
+const ACCOUNTS_KEY = 'bnb_accounts';
+const TRANSACTIONS_KEY = 'bnb_transactions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
-
-  constructor() { }
-  // Private writable signals, state only lives here nowhere else
   private accountsSignal = signal<Account[]>([]);
   private transactionsSignal = signal<Transaction[]>([]);
 
-  // Public read-only views — components can read but never mutate directly
   accounts = this.accountsSignal.asReadonly();
   transactions = this.transactionsSignal.asReadonly();
 
-  //Derived state - recalculates automatically whenever accountSignal changes
-  totalBalance = computed(() => 
-    this.accountsSignal().reduce((sum,acc) => sum + acc.balance, 0)
+  totalBalance = computed(() =>
+    this.accountsSignal().reduce((sum, acc) => sum + acc.balance, 0)
   );
 
   accountCount = computed(() => this.accountsSignal().length);
 
-  createAccount(name: string, type: AccountType, initialBalance: number): Account{
+  constructor(private storage: StorageService) {
+    this.loadFromStorage();
+
+    effect(() => {
+      this.storage.setItem(ACCOUNTS_KEY, this.accountsSignal());
+    });
+
+    effect(() => {
+      this.storage.setItem(TRANSACTIONS_KEY, this.transactionsSignal());
+    });
+  }
+
+  private loadFromStorage(): void {
+    const storedAccounts = this.storage.getItem<Account[]>(ACCOUNTS_KEY);
+    const storedTransactions = this.storage.getItem<Transaction[]>(TRANSACTIONS_KEY);
+
+    if (storedAccounts) {
+      const rehydrated = storedAccounts.map(acc => ({
+        ...acc,
+        createdAt: new Date(acc.createdAt)
+      }));
+      this.accountsSignal.set(rehydrated);
+    }
+
+    if (storedTransactions) {
+      const rehydrated = storedTransactions.map(tx => ({
+        ...tx,
+        timestamp: new Date(tx.timestamp)
+      }));
+      this.transactionsSignal.set(rehydrated);
+    }
+  }
+
+  createAccount(name: string, type: AccountType, initialBalance: number): Account {
     const newAccount: Account = {
       id: crypto.randomUUID(),
       name,
@@ -33,19 +65,19 @@ export class AccountService {
     };
 
     this.accountsSignal.update(accounts => [...accounts, newAccount]);
-    
-    if(initialBalance > 0){
-      this.recordTransaction(newAccount.id, 'deposit', initialBalance, initialBalance, 'Initial Deposit');
+
+    if (initialBalance > 0) {
+      this.recordTransaction(newAccount.id, 'deposit', initialBalance, initialBalance, 'Initial deposit');
     }
 
     return newAccount;
   }
 
-  getAccountById(id: string): Account | undefined{
+  getAccountById(id: string): Account | undefined {
     return this.accountsSignal().find(acc => acc.id === id);
   }
 
-  transferFunds(fromId: string, toId: string, amount: number): {success: boolean; message: string} {
+  transferFunds(fromId: string, toId: string, amount: number): { success: boolean; message: string } {
     const from = this.getAccountById(fromId);
     const to = this.getAccountById(toId);
 
@@ -62,10 +94,10 @@ export class AccountService {
       return { success: false, message: 'Insufficient funds.' };
     }
 
-    this.accountsSignal.update(accounts => 
+    this.accountsSignal.update(accounts =>
       accounts.map(acc => {
-        if(acc.id === fromId) return {...acc, balance: acc.balance - amount};
-        if(acc.id === toId) return {... acc, balance: acc.balance + amount};
+        if (acc.id === fromId) return { ...acc, balance: acc.balance - amount };
+        if (acc.id === toId) return { ...acc, balance: acc.balance + amount };
         return acc;
       })
     );
@@ -76,10 +108,10 @@ export class AccountService {
     this.recordTransaction(fromId, 'transfer-out', amount, updatedFrom.balance, `Transfer to ${to.name}`);
     this.recordTransaction(toId, 'transfer-in', amount, updatedTo.balance, `Transfer from ${from.name}`);
 
-    return { success: true, message: 'Transfer successful.'};
+    return { success: true, message: 'Transfer successful.' };
   }
 
-  getTransactionForAccount(accountId: string): Transaction[] {
+  getTransactionsForAccount(accountId: string): Transaction[] {
     return this.transactionsSignal().filter(t => t.accountId === accountId);
   }
 
