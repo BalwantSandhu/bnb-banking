@@ -1,0 +1,76 @@
+.app-header {
+    background: linear-gradient(135deg, var(--bnb-navy) 0%, var(--bnb-navy-dark) 100%);
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.app-header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1rem var(--space-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--bnb-white);
+}
+
+.brand-icon {
+    font-size: 1.4rem;
+}
+
+.brand-name {
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.main-nav {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+
+    a {
+        color: rgba(255, 255, 255, 0.75);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 0.5rem 0.9rem;
+        border-radius: var(--radius-sm);
+
+        &:hover {
+        color: var(--bnb-white);
+        background: rgba(255, 255, 255, 0.08);
+        }
+
+        &.active-link {
+        color: var(--bnb-white);
+        background: rgba(255, 255, 255, 0.15);
+        }
+    }
+}
+
+.app-content {
+    min-height: calc(100vh - 140px);
+}
+
+.app-footer {
+    text-align: center;
+    padding: var(--space-md);
+    color: var(--bnb-grey-muted);
+    font-size: 0.8rem;
+
+    p {
+        margin: 0.15rem 0;
+    }
+}

@@ -1,1 +1,24 @@
-<router-outlet></router-outlet>
+<header class="app-header">
+    <div class="app-header-inner">
+      <a routerLink="/dashboard" class="brand">
+        <span class="brand-icon">🏦</span>
+        <span class="brand-name">BNB</span>
+      </a>
+  
+      <nav class="main-nav" aria-label="Main navigation">
+        <a routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>
+        <a routerLink="/accounts/create" routerLinkActive="active-link">Create Account</a>
+        <a routerLink="/transactions/transfer" routerLinkActive="active-link">Transfer Funds</a>
+        <a routerLink="/transactions/history" routerLinkActive="active-link">Transaction History</a>
+      </nav>
+    </div>
+  </header>
+  
+  <main class="app-content">
+    <router-outlet></router-outlet>
+  </main>
+  
+  <footer class="app-footer">
+    <p>© 2026 BNB — Bank of New Brunswick. All rights reserved.</p>
+    <p class="footer-sub">Take-Home Assessment — Banking Application</p>
+  </footer>
