@@ -124,10 +124,6 @@
     margin-bottom: var(--space-sm);
 }
 
-.account-card--savings .account-balance {
-    color: var(--bnb-red);
-}
-
 .account-actions {
     display: flex;
     gap: var(--space-sm);
@@ -252,7 +248,7 @@
 }
   
 .summary-value--red {
-    color: var(--bnb-red);
+    color: var(--bnb-navy);
 }
 
 .section-header--spaced {
