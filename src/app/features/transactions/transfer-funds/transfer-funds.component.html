@@ -5,8 +5,8 @@
     <form [formGroup]="transferForm" (ngSubmit)="onSubmit()" novalidate>
   
       <div class="form-field">
-        <label for="fromAccountId">From Account</label>
-        <select id="fromAccountId" formControlName="fromAccountId" (change)="onFromAccountChange()"
+        <label for="fromAccountId">From Account <span class="required-mark" aria-hidden="true">*</span></label>
+        <select id="fromAccountId" formControlName="fromAccountId" required (change)="onFromAccountChange()"
           [attr.aria-invalid]="fromAccountId?.invalid && (fromAccountId?.touched || submitted)">
           <option value="" disabled>Select account</option>
           <option *ngFor="let acc of accounts()" [value]="acc.id">
@@ -22,8 +22,8 @@
       </div>
   
       <div class="form-field">
-        <label for="toAccountId">To Account</label>
-        <select id="toAccountId" formControlName="toAccountId"
+        <label for="toAccountId">To Account <span class="required-mark" aria-hidden="true">*</span></label>
+        <select id="toAccountId" formControlName="toAccountId" required
           [attr.aria-invalid]="toAccountId?.invalid && (toAccountId?.touched || submitted)">
           <option value="" disabled>Select account</option>
           <option *ngFor="let acc of availableToAccounts()" [value]="acc.id">
@@ -39,11 +39,12 @@
       </div>
   
       <div class="form-field">
-        <label for="amount">Amount ($)</label>
+        <label for="amount">Amount ($) <span class="required-mark" aria-hidden="true">*</span></label>
         <input
           id="amount"
           type="number"
           formControlName="amount"
+          required
           min="0.01"
           step="0.01"
           [attr.aria-invalid]="amount?.invalid && (amount?.touched || submitted)"
@@ -108,3 +109,13 @@
       </div>
     </div>
   </div>
+  
+  <app-loading-modal
+    [show]="showModal"
+    title="Transfer Successful!"
+    message="Your funds have been transferred. See the summary below for details."
+    icon="success"
+    [showCountdown]="false"
+    [showGoNowButton]="true"
+    (goNowClick)="closeModal()">
+  </app-loading-modal>

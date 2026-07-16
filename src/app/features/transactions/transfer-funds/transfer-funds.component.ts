@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, signal, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from '../../../core/services/account.service';
@@ -19,7 +19,7 @@ interface TransferSummary {
   templateUrl: './transfer-funds.component.html',
   styleUrl: './transfer-funds.component.scss'
 })
-export class TransferFundsComponent {
+export class TransferFundsComponent implements OnDestroy {
   transferForm: FormGroup;
   submitted = false;
   resultMessage = signal<string | null>(null);
@@ -27,12 +27,15 @@ export class TransferFundsComponent {
   lastTransfer = signal<TransferSummary | null>(null);
   accounts;
 
+  showModal = false;
+  private countdownInterval: ReturnType<typeof setInterval> | null = null;
+
   constructor(
     private fb: FormBuilder,
     private accountService: AccountService,
     private router: Router
   ) {
-    this.accounts = this.accountService.accounts; //signal, whcih reads directly in template
+    this.accounts = this.accountService.accounts;
 
     this.transferForm = this.fb.group(
       {
@@ -102,6 +105,17 @@ export class TransferFundsComponent {
 
       this.transferForm.reset({ fromAccountId: '', toAccountId: '', amount: null, note: '' });
       this.submitted = false;
+      this.showModal = true;
+    }
+  }
+
+  closeModal(): void {
+    this.showModal = false;
+  }
+
+  ngOnDestroy(): void {
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
     }
   }
 }
