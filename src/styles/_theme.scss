@@ -1,43 +1,44 @@
 :root {
-  // Brand
   --bnb-navy: #0B2545;
   --bnb-navy-dark: #071A33;
   --bnb-red: #C8102E;
   --bnb-red-dark: #8f0c1f;
+  --bnb-red-tint: #FDECEC;
   --bnb-white: #FFFFFF;
 
-  // Neutrals
   --bnb-grey-bg: #F4F6FA;
   --bnb-grey-text: #4A5568;
-  --bnb-grey-muted: #6B7A8F; // darkened from #94A3B8 for WCAG AA contrast compliance
+  --bnb-grey-muted: #6B7A8F;
   --bnb-border: #E2E8F0;
 
-  // Feedback
   --bnb-success: #1B7F4C;
+  --bnb-success-tint: #E7F5EC;
   --bnb-focus-ring: #2563EB;
 
-  // Elevation
   --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
   --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.08);
   --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
 
-  // Radius scale
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 18px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
 
-  // Spacing scale
-  --space-xs: 0.5rem;
-  --space-sm: 1rem;
-  --space-md: 1.5rem;
-  --space-lg: 2.5rem;
+  --space-xs: 0.6rem;
+  --space-sm: 1.25rem;
+  --space-md: 1.75rem;
+  --space-lg: 3rem;
 }
 
 body {
   background: var(--bnb-grey-bg);
   color: #1A202C;
   font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 500; 
 }
 
 :focus-visible {
@@ -46,6 +47,30 @@ body {
   border-radius: 4px;
 }
 
-button, input, .radio-card, a {
+button, input, select, .radio-card, a {
   transition: all 0.18s ease;
+}
+
+.icon-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  font-size: 1.05rem;
+
+  &--in {
+    background: var(--bnb-success-tint);
+    color: var(--bnb-success);
+  }
+  &--out {
+    background: var(--bnb-red-tint);
+    color: var(--bnb-red);
+  }
+  &--navy {
+    background: rgba(11, 37, 69, 0.08);
+    color: var(--bnb-navy);
+  }
 }

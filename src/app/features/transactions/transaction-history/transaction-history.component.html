@@ -41,6 +41,9 @@
       </p>
   
       <div class="tx-row" *ngFor="let tx of filteredTransactions" [class.tx-row--negative]="tx.type === 'transfer-out'">
+        <span class="icon-chip" [ngClass]="tx.type === 'transfer-out' ? 'icon-chip--out' : 'icon-chip--in'" aria-hidden="true">
+          <i class="ti" [ngClass]="tx.type === 'transfer-out' ? 'ti-arrow-up-right' : (tx.type === 'deposit' ? 'ti-plus' : 'ti-arrow-down-left')"></i>
+        </span>
         <div class="tx-main">
           <span class="tx-type">{{ tx.type | transactionType }}</span>
           <span class="tx-desc">{{ tx.description }}</span>

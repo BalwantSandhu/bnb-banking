@@ -1,7 +1,7 @@
 .create-account-page {
   max-width: 640px;
   margin: var(--space-lg) auto;
-  padding: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
   background: var(--bnb-white);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
@@ -10,7 +10,6 @@
 h1 {
   color: var(--bnb-navy);
   font-size: 1.85rem;
-  font-weight: 800;
   letter-spacing: -0.02em;
   margin-bottom: 0.35rem;
 }
@@ -28,7 +27,7 @@ h1 {
 }
 
 legend {
-  font-weight: 700;
+  font-weight: 500;
   font-size: 1.05rem;
   margin-bottom: var(--space-xs);
   padding: 0;
@@ -36,10 +35,15 @@ legend {
 
 label {
   display: block;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 0.9rem;
   margin-bottom: 0.4rem;
   color: var(--bnb-grey-text);
+}
+
+.required-mark {
+  color: var(--bnb-red);
+  margin-left: 2px;
 }
 
 .hint-text {
@@ -74,7 +78,7 @@ input[type="number"] {
 
 .radio-card {
   display: block;
-  padding: 1.1rem 1.25rem;
+  padding: var(--space-sm);
   border: 1.5px solid var(--bnb-border);
   border-radius: var(--radius-md);
   margin-bottom: 0.75rem;
@@ -90,7 +94,7 @@ input[type="number"] {
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 1rem;
   }
 
@@ -103,7 +107,8 @@ input[type="number"] {
 
   &--selected {
     border-color: var(--bnb-navy);
-    background: rgba(11, 37, 69, 0.04);
+    border-width: 2px;
+    background: rgba(11, 37, 69, 0.06);
     box-shadow: var(--shadow-sm);
   }
 
@@ -133,12 +138,11 @@ input[type="number"] {
     letter-spacing: 0.08em;
     opacity: 0.75;
     margin-bottom: 0.4rem;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   .type-summary-title {
     font-size: 1.3rem;
-    font-weight: 800;
     letter-spacing: -0.01em;
   }
 }
@@ -148,9 +152,4 @@ input[type="number"] {
   font-size: 0.85rem;
   margin-top: 0.4rem;
   font-weight: 500;
-}
-
-.required-mark {
-  color: var(--bnb-red);
-  margin-left: 2px;
 }

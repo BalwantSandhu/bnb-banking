@@ -4,38 +4,40 @@
   
     <form [formGroup]="transferForm" (ngSubmit)="onSubmit()" novalidate>
   
-      <div class="form-field">
-        <label for="fromAccountId">From Account <span class="required-mark" aria-hidden="true">*</span></label>
-        <select id="fromAccountId" formControlName="fromAccountId" required (change)="onFromAccountChange()"
-          [attr.aria-invalid]="fromAccountId?.invalid && (fromAccountId?.touched || submitted)">
-          <option value="" disabled>Select account</option>
-          <option *ngFor="let acc of accounts()" [value]="acc.id">
-            {{ acc.name }} ({{ acc.type }}) — ${{ acc.balance | number:'1.2-2' }}
-          </option>
-        </select>
-        <p class="hint-text" *ngIf="selectedFromBalance() !== null">
-          Available balance: ${{ selectedFromBalance() | number:'1.2-2' }}
-        </p>
-        <p class="error-text" *ngIf="fromAccountId?.invalid && (fromAccountId?.touched || submitted)" role="alert">
-          Please select the source account.
-        </p>
-      </div>
-  
-      <div class="form-field">
-        <label for="toAccountId">To Account <span class="required-mark" aria-hidden="true">*</span></label>
-        <select id="toAccountId" formControlName="toAccountId" required
-          [attr.aria-invalid]="toAccountId?.invalid && (toAccountId?.touched || submitted)">
-          <option value="" disabled>Select account</option>
-          <option *ngFor="let acc of availableToAccounts()" [value]="acc.id">
-            {{ acc.name }} ({{ acc.type }})
-          </option>
-        </select>
-        <p class="error-text" *ngIf="toAccountId?.invalid && (toAccountId?.touched || submitted)" role="alert">
-          Please select the destination account.
-        </p>
-        <p class="error-text" *ngIf="transferForm.errors?.['sameAccount'] && (toAccountId?.touched || submitted)" role="alert">
-          From and To accounts cannot be the same.
-        </p>
+      <div class="from-to-group">
+        <div class="form-field">
+            <label for="fromAccountId">From Account <span class="required-mark" aria-hidden="true">*</span></label>
+            <select id="fromAccountId" formControlName="fromAccountId" required (change)="onFromAccountChange()"
+              [attr.aria-invalid]="fromAccountId?.invalid && (fromAccountId?.touched || submitted)">
+              <option value="" disabled>Select account</option>
+              <option *ngFor="let acc of accounts()" [value]="acc.id">
+                {{ acc.name }} ({{ acc.type }}) — ${{ acc.balance | number:'1.2-2' }}
+              </option>
+            </select>
+            <p class="hint-text" *ngIf="selectedFromBalance() !== null">
+              Available balance: ${{ selectedFromBalance() | number:'1.2-2' }}
+            </p>
+            <p class="error-text" *ngIf="fromAccountId?.invalid && (fromAccountId?.touched || submitted)" role="alert">
+              Please select the source account.
+            </p>
+          </div>
+          
+          <div class="form-field">
+            <label for="toAccountId">To Account <span class="required-mark" aria-hidden="true">*</span></label>
+            <select id="toAccountId" formControlName="toAccountId" required
+              [attr.aria-invalid]="toAccountId?.invalid && (toAccountId?.touched || submitted)">
+              <option value="" disabled>Select account</option>
+              <option *ngFor="let acc of availableToAccounts()" [value]="acc.id">
+                {{ acc.name }} ({{ acc.type }})
+              </option>
+            </select>
+            <p class="error-text" *ngIf="toAccountId?.invalid && (toAccountId?.touched || submitted)" role="alert">
+              Please select the destination account.
+            </p>
+            <p class="error-text" *ngIf="transferForm.errors?.['sameAccount'] && (toAccountId?.touched || submitted)" role="alert">
+              From and To accounts cannot be the same.
+            </p>
+          </div>
       </div>
   
       <div class="form-field">
@@ -46,7 +48,7 @@
           formControlName="amount"
           required
           min="0.01"
-          step="0.01"
+          step="1"
           [attr.aria-invalid]="amount?.invalid && (amount?.touched || submitted)"
           aria-describedby="amount-error"
         />
