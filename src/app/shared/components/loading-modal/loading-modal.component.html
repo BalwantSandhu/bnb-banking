@@ -1,0 +1,31 @@
+<div class="loading-overlay" *ngIf="show" role="dialog" aria-modal="true" [attr.aria-label]="title">
+    <div class="loading-content">
+  
+      <div class="icon-container">
+        <div class="spinner" *ngIf="icon === 'spinner'"></div>
+  
+        <div class="success-icon" *ngIf="icon === 'success'">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <circle cx="40" cy="40" r="36" fill="var(--bnb-success)" />
+            <path d="M 25 40 L 35 50 L 55 30" stroke="white" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+      </div>
+  
+      <h2>{{ title }}</h2>
+      <p class="message">{{ message }}</p>
+  
+      <p class="countdown" *ngIf="showCountdown">
+        Redirecting to dashboard in
+        <strong>{{ countdown }}</strong>
+        second{{ countdown !== 1 ? 's' : '' }}...
+      </p>
+  
+      <button
+        *ngIf="showGoNowButton"
+        class="redirect-now-btn"
+        (click)="onGoNowClick()">
+        {{ showCountdown ? 'Go Now' : 'Got it' }}
+      </button>
+    </div>
+  </div>
