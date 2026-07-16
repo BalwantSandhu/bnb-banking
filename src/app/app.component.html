@@ -1,23 +1,25 @@
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
 <header class="app-header">
-    <div class="app-header-inner">
-      <a routerLink="/dashboard" class="brand">
-        <img src="images/bnb-logo.png" alt="BNB logo" class="brand-logo" />
-      </a>
-  
-      <nav class="main-nav" aria-label="Main navigation">
-        <a routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>
-        <a routerLink="/accounts/create" routerLinkActive="active-link">Create Account</a>
-        <a routerLink="/transactions/transfer" routerLinkActive="active-link">Transfer Funds</a>
-        <a routerLink="/transactions/history" routerLinkActive="active-link">Transaction History</a>
-      </nav>
-    </div>
-  </header>
-  
-  <main class="app-content">
-    <router-outlet></router-outlet>
-  </main>
-  
-  <footer class="app-footer">
-    <p>© 2026 BNB — Bank of New Brunswick. All rights reserved.</p>
-    <p class="footer-sub">Take-Home Assessment — Banking Application</p>
-  </footer>
+  <div class="app-header-inner">
+    <a routerLink="/dashboard" class="brand">
+      <img src="images/bnb-logo.png" alt="BNB - Bank of New Brunswick logo" class="brand-logo" />
+    </a>
+
+    <nav class="main-nav" aria-label="Main navigation">
+      <a routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" #rla1="routerLinkActive" [attr.aria-current]="rla1.isActive ? 'page' : null">Dashboard</a>
+      <a routerLink="/accounts/create" routerLinkActive="active-link" #rla2="routerLinkActive" [attr.aria-current]="rla2.isActive ? 'page' : null">Create Account</a>
+      <a routerLink="/transactions/transfer" routerLinkActive="active-link" #rla3="routerLinkActive" [attr.aria-current]="rla3.isActive ? 'page' : null">Transfer Funds</a>
+      <a routerLink="/transactions/history" routerLinkActive="active-link" #rla4="routerLinkActive" [attr.aria-current]="rla4.isActive ? 'page' : null">Transaction History</a>
+    </nav>
+  </div>
+</header>
+
+<main class="app-content" id="main-content">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="app-footer">
+  <p>© 2026 BNB — Bank of New Brunswick. All rights reserved.</p>
+  <p class="footer-sub">Take-Home Assessment — Banking Application</p>
+</footer>
