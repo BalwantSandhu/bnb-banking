@@ -1,59 +1,94 @@
-# BnbBanking
+# BNB — Bank of New Brunswick
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.19.
+A banking web app built with Angular. Create accounts, transfer funds, and view transaction history — all data persisted locally via `localStorage`, no backend required.
 
-## Development server
+## Table of Contents
+- [Screenshots](#screenshots)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Notable Decisions](#notable-decisions)
+- [Accessibility](#accessibility)
+- [Known Limitations](#known-limitations)
 
-To start a local development server, run:
+## Screenshots
+
+### Dashboard
+![Dashboard](./screenshots/dashboard.png)
+
+### Create Account
+![Create Account](./screenshots/create-account.png)
+
+### Transfer Funds
+![Transfer Funds](./screenshots/transfer-funds.png)
+
+### Transaction History
+![Transaction History](./screenshots/transaction-history.png)
+
+### Mobile View
+![Mobile](./screenshots/mobile.png)
+
+## Features
+
+- **Create Account** — Chequing or Savings, FormBuilder validation, conditional button styling
+- **Transfer Funds** — custom validators (insufficient balance, same-account), optional message, receipt summary
+- **Transaction History** — search by amount/description, filter by type, pagination
+- **Dashboard** — total/chequing/savings balances, recent activity, account overflow handling
+- **Persistence** — accounts and transactions saved to `localStorage`
+- **Responsive** — bottom tab bar navigation on mobile
+- **Accessible** — skip link, ARIA attributes, keyboard navigable, WCAG AA contrast
+
+## Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| Angular 19 (NgModules) | Framework |
+| Angular Material | Base theming |
+| Angular Signals | State management |
+| Reactive Forms | Forms + custom validators |
+| SCSS | Styling |
+
+## Getting Started
 
 ```bash
+npm install -g @angular/cli
+git clone <repo-url>
+cd bnb-banking
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open `http://localhost:4200`.
 
-## Code scaffolding
+## Project Structure
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```
+src/app
+├── core
+│   ├── models        # Account, Transaction
+│   └── services       # AccountService (signals), StorageService
+├── shared
+│   ├── components      # custom button, loading modal
+│   ├── pipes            # transactionType
+│   └── validators       # sameAccountValidator, sufficientBalanceValidator
+└── features
+    ├── dashboard
+    ├── accounts/create-account
+    └── transactions/transfer-funds, transaction-history
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Each feature module is lazy-loaded via `loadChildren`.
 
-```bash
-ng generate --help
-```
+## Notable Decisions
 
-## Building
+- **Signals over RxJS** — `AccountService` uses `signal()`/`computed()`/`effect()`, Angular's current recommended approach for local state; less boilerplate than manual subscriptions, and `computed()` keeps derived values (like totals) always in sync.
+- **Two focused custom validators** rather than one combined — `sameAccountValidator` and `sufficientBalanceValidator` each handle one rule, composed via Angular's `validators: [...]` array.
+- **StorageService + `effect()`** — any signal change auto-persists to `localStorage`; no manual save calls scattered through the app.
 
-To build the project run:
+## Accessibility
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Skip-to-content link
+- `aria-current="page"` on active nav link
+- `fieldset`/`legend`, `aria-invalid`, `role="alert"` on forms
+- Visible focus rings, WCAG AA contrast
