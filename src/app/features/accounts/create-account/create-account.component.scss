@@ -149,3 +149,8 @@ input[type="number"] {
   margin-top: 0.4rem;
   font-weight: 500;
 }
+
+.required-mark {
+  color: var(--bnb-red);
+  margin-left: 2px;
+}

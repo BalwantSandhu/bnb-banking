@@ -5,11 +5,12 @@
     <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" novalidate>
   
       <div class="form-field">
-        <label for="name">Account Holder Name</label>
+        <label for="name">Account Holder Name <span class="required-mark" aria-hidden="true">*</span></label>
         <input
           id="name"
           type="text"
           formControlName="name"
+          required
           placeholder="Enter full name"
           [attr.aria-invalid]="name?.invalid && (name?.touched || submitted)"
           aria-describedby="name-error"
@@ -43,11 +44,12 @@
       </fieldset>
   
       <div class="form-field">
-        <label for="initialBalance">Initial Balance ($)</label>
+        <label for="initialBalance">Initial Balance ($) <span class="required-mark" aria-hidden="true">*</span></label>
         <input
           id="initialBalance"
           type="number"
           formControlName="initialBalance"
+          required
           min="0"
           step="0.01"
           [attr.aria-invalid]="initialBalance?.invalid && (initialBalance?.touched || submitted)"
@@ -60,7 +62,6 @@
         </p>
       </div>
   
-      <!-- Live summary card — reinforces the selected type visually -->
       <div class="type-summary" [ngClass]="'type-summary--' + selectedType">
         <p class="type-summary-label">SELECTED ACCOUNT TYPE</p>
         <p class="type-summary-title">{{ selectedType === 'chequing' ? 'Chequing Account' : 'Savings Account' }}</p>
@@ -74,3 +75,14 @@
   
     </form>
   </div>
+  
+  <app-loading-modal
+    [show]="showModal"
+    title="Account Created!"
+    [message]="'Your new ' + selectedType + ' account has been set up successfully.'"
+    icon="success"
+    [countdown]="modalCountdown"
+    [showCountdown]="true"
+    [showGoNowButton]="true"
+    (goNowClick)="goToDashboard()">
+  </app-loading-modal>
