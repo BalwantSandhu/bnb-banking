@@ -4,6 +4,7 @@ import { AccountService } from '../../../core/services/account.service';
 import { Transaction } from '../../../core/models/transaction.model';
 
 type FilterOption = 'all' | 'in' | 'out';
+const PAGE_SIZE = 10;
 
 @Component({
   selector: 'app-transaction-history',
@@ -13,9 +14,10 @@ type FilterOption = 'all' | 'in' | 'out';
 })
 export class TransactionHistoryComponent {
   accounts;
-  selectedAccountId = signal<string>(''); // '' means "All Accounts"
+  selectedAccountId = signal<string>('');
   searchTerm = '';
   activeFilter = signal<FilterOption>('all');
+  visibleCount = signal<number>(PAGE_SIZE);
 
   constructor(
     private accountService: AccountService,
@@ -23,8 +25,6 @@ export class TransactionHistoryComponent {
   ) {
     this.accounts = this.accountService.accounts;
 
-    // If navigated here with a route param, pre-select that account —
-    // otherwise default stays '' (All Accounts)
     const routeId = this.route.snapshot.paramMap.get('accountId');
     if (routeId) {
       this.selectedAccountId.set(routeId);
@@ -33,20 +33,26 @@ export class TransactionHistoryComponent {
 
   onAccountChange(id: string): void {
     this.selectedAccountId.set(id);
+    this.visibleCount.set(PAGE_SIZE); // reset pagination whenever the filter context changes
   }
 
   setFilter(filter: FilterOption): void {
     this.activeFilter.set(filter);
+    this.visibleCount.set(PAGE_SIZE);
   }
 
-  // Base list: either one account's transactions, or every transaction
-  // across all accounts, newest first either way.
+  onSearchChange(): void {
+    this.visibleCount.set(PAGE_SIZE);
+  }
+
+  loadMore(): void {
+    this.visibleCount.set(this.visibleCount() + PAGE_SIZE);
+  }
+
   private baseTransactions = computed<Transaction[]>(() => {
     const id = this.selectedAccountId();
     const all = this.accountService.transactions();
-
     const list = id ? all.filter(t => t.accountId === id) : all;
-
     return list.slice().sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
   });
 
@@ -58,7 +64,7 @@ export class TransactionHistoryComponent {
     return list.filter(tx => tx.type === 'transfer-out');
   }
 
-  get filteredTransactions(): Transaction[] {
+  get allFilteredTransactions(): Transaction[] {
     const term = this.searchTerm.trim().toLowerCase();
     const list = this.typeFiltered();
     if (!term) return list;
@@ -69,6 +75,14 @@ export class TransactionHistoryComponent {
       const accountMatch = this.getAccountName(tx.accountId).toLowerCase().includes(term);
       return descMatch || amountMatch || accountMatch;
     });
+  }
+
+  get filteredTransactions(): Transaction[] {
+    return this.allFilteredTransactions.slice(0, this.visibleCount());
+  }
+
+  get hasMore(): boolean {
+    return this.allFilteredTransactions.length > this.visibleCount();
   }
 
   get totalCount(): number {

@@ -163,3 +163,34 @@
     width: fit-content;
     margin-top: 0.15rem;
   }
+
+  .load-more-btn {
+    display: block;
+    margin: var(--space-md) auto 0;
+    padding: 0.6rem 1.4rem;
+    background: var(--bnb-white);
+    border: 1.5px solid var(--bnb-border);
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--bnb-navy);
+    cursor: pointer;
+    font-family: inherit;
+  
+    &:hover {
+      border-color: var(--bnb-navy);
+      background: rgba(11, 37, 69, 0.04);
+    }
+  }
+  
+  .empty-state {
+    text-align: center;
+    color: var(--bnb-grey-muted);
+    padding: var(--space-lg) 0;
+    font-size: 0.9rem;
+  }
+  
+  .empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-sm);
+  }

@@ -22,6 +22,7 @@
           id="searchTerm"
           type="text"
           [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange()"
           placeholder="Search by amount, description, or account..."
           aria-label="Search transactions"
         />
@@ -35,8 +36,8 @@
     </div>
   
     <div class="tx-list">
-      <p class="result-count" *ngIf="filteredTransactions.length !== totalCount || totalCount > 0">
-        Showing {{ filteredTransactions.length }} of {{ totalCount }} transactions
+      <p class="result-count" *ngIf="allFilteredTransactions.length > 0">
+        Showing {{ filteredTransactions.length }} of {{ allFilteredTransactions.length }} transactions
       </p>
   
       <div class="tx-row" *ngFor="let tx of filteredTransactions" [class.tx-row--negative]="tx.type === 'transfer-out'">
@@ -51,11 +52,17 @@
         </div>
       </div>
   
-      <p class="empty-state" *ngIf="filteredTransactions.length === 0 && totalCount === 0">
-        No transactions yet. Create an account or make a transfer to get started.
-      </p>
-      <p class="empty-state" *ngIf="filteredTransactions.length === 0 && totalCount > 0">
-        No transactions match your search or filter.
-      </p>
+      <button type="button" class="load-more-btn" *ngIf="hasMore" (click)="loadMore()">
+        Load more
+      </button>
+  
+      <div class="empty-state" *ngIf="allFilteredTransactions.length === 0 && totalCount === 0">
+        <div class="empty-icon" aria-hidden="true">📄</div>
+        <p>No transactions yet. Create an account or make a transfer to get started.</p>
+      </div>
+      <div class="empty-state" *ngIf="allFilteredTransactions.length === 0 && totalCount > 0">
+        <div class="empty-icon" aria-hidden="true">🔍</div>
+        <p>No transactions match your search or filter.</p>
+      </div>
     </div>
   </div>

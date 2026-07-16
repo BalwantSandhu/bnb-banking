@@ -20,6 +20,18 @@ export class AccountService {
     this.accountsSignal().reduce((sum, acc) => sum + acc.balance, 0)
   );
 
+  totalChequing = computed(() =>
+    this.accountsSignal()
+      .filter(acc => acc.type === 'chequing')
+      .reduce((sum, acc) => sum + acc.balance, 0)
+  );
+
+  totalSavings = computed(() =>
+    this.accountsSignal()
+      .filter(acc => acc.type === 'savings')
+      .reduce((sum, acc) => sum + acc.balance, 0)
+  );
+
   accountCount = computed(() => this.accountsSignal().length);
 
   constructor(private storage: StorageService) {
