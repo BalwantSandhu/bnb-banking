@@ -167,4 +167,82 @@
       text-decoration: underline;
     }
 }
+
+.show-all-btn {
+    display: block;
+    margin: var(--space-md) auto 0;
+    padding: 0.6rem 1.4rem;
+    background: var(--bnb-white);
+    border: 1.5px solid var(--bnb-border);
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--bnb-navy);
+    cursor: pointer;
+    font-family: inherit;
   
+    &:hover {
+      border-color: var(--bnb-navy);
+      background: rgba(11, 37, 69, 0.04);
+    }
+}
+
+.overflow-list {
+    margin-top: var(--space-md);
+    background: var(--bnb-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    max-height: 320px;
+    overflow-y: auto;
+}
+  
+.overflow-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 0.85rem var(--space-md);
+    border-bottom: 1px solid var(--bnb-border);
+    font-size: 0.88rem;
+  
+    &:last-child {
+      border-bottom: none;
+    }
+}
+
+.overflow-name {
+    font-weight: 600;
+}
+
+.overflow-type {
+    text-transform: capitalize;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--bnb-navy);
+  
+    &--savings {
+      color: var(--bnb-red);
+    }
+}
+
+.overflow-balance {
+    font-weight: 700;
+    text-align: right;
+}
+
+.overflow-actions {
+    display: flex;
+    gap: 0.6rem;
+  
+    a {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--bnb-grey-text);
+      text-decoration: none;
+  
+      &:hover {
+        color: var(--bnb-navy);
+        text-decoration: underline;
+      }
+    }
+}  

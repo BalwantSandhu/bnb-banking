@@ -23,11 +23,34 @@
     </div>
   
     <div class="accounts-grid" *ngIf="accounts().length > 0; else noAccounts">
-      <div class="account-card" *ngFor="let acc of accounts()" [ngClass]="'account-card--' + acc.type">
+      <div class="account-card" *ngFor="let acc of visibleAccounts" [ngClass]="'account-card--' + acc.type">
         <p class="account-type-label">{{ acc.type === 'chequing' ? 'Chequing' : 'Savings' }}</p>
         <p class="account-name">{{ acc.name }}</p>
         <p class="account-balance">${{ acc.balance | number:'1.2-2' }}</p>
         <div class="account-actions">
+          <a [routerLink]="['/transactions/history', acc.id]">History</a>
+          <a routerLink="/transactions/transfer">Transfer</a>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Show more / less toggle -->
+    <button
+      type="button"
+      class="show-all-btn"
+      *ngIf="hasOverflow"
+      (click)="toggleShowAll()"
+      [attr.aria-expanded]="showAll()">
+      {{ showAll() ? 'Show less' : 'Show all ' + accountCount() + ' accounts →' }}
+    </button>
+  
+    <!-- Compact list for overflow accounts, revealed on toggle -->
+    <div class="overflow-list" *ngIf="showAll() && hasOverflow">
+      <div class="overflow-row" *ngFor="let acc of overflowAccounts">
+        <span class="overflow-name">{{ acc.name }}</span>
+        <span class="overflow-type" [ngClass]="'overflow-type--' + acc.type">{{ acc.type }}</span>
+        <span class="overflow-balance">${{ acc.balance | number:'1.2-2' }}</span>
+        <div class="overflow-actions">
           <a [routerLink]="['/transactions/history', acc.id]">History</a>
           <a routerLink="/transactions/transfer">Transfer</a>
         </div>
