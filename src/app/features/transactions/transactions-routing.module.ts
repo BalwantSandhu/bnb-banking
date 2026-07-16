@@ -11,6 +11,9 @@ const routes: Routes = [
     path: 'history', component: TransactionHistoryComponent
   },
   {
+    path: 'history/:accountId', component: TransactionHistoryComponent
+  },
+  {
     path: '', redirectTo: 'transfer', pathMatch: 'full'
   }
 ];

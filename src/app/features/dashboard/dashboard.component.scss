@@ -1,0 +1,170 @@
+.dashboard-page {
+    max-width: 1000px;
+    margin: var(--space-lg) auto;
+    padding: 0 var(--space-md);
+}
+
+.welcome-banner {
+    background: linear-gradient(135deg, var(--bnb-navy) 0%, var(--bnb-navy-dark) 100%);
+    color: var(--bnb-white);
+    padding: var(--space-lg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    margin-bottom: var(--space-md);
+}
+
+.welcome-greeting {
+    font-size: 1rem;
+    opacity: 0.8;
+    margin-bottom: 0.2rem;
+}
+
+.welcome-banner h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.3rem;
+}
+
+.welcome-sub {
+    opacity: 0.85;
+    font-size: 0.95rem;
+}
+
+.summary-row {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+    flex-wrap: wrap;
+}
+
+.summary-card {
+    flex: 1;
+    min-width: 200px;
+    background: var(--bnb-white);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.summary-label {
+    font-size: 0.8rem;
+    color: var(--bnb-grey-muted);
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+}
+
+.summary-value {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--bnb-navy);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-sm);
+  
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--bnb-navy);
+    }
+}
+
+.add-link {
+    color: var(--bnb-navy);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+  
+    &:hover {
+      text-decoration: underline;
+    }
+}
+
+.accounts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-md);
+}
+
+.account-card {
+    background: var(--bnb-white);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    box-shadow: var(--shadow-sm);
+    border-top: 4px solid var(--bnb-navy);
+  
+    &--savings {
+      border-top-color: var(--bnb-red);
+    }
+}
+
+.account-type-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--bnb-grey-muted);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+}
+
+.account-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.account-balance {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--bnb-navy);
+    margin-bottom: var(--space-sm);
+}
+
+.account-card--savings .account-balance {
+    color: var(--bnb-red);
+}
+
+.account-actions {
+    display: flex;
+    gap: var(--space-sm);
+    border-top: 1px solid var(--bnb-border);
+    padding-top: var(--space-sm);
+  
+    a {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--bnb-grey-text);
+      text-decoration: none;
+  
+      &:hover {
+        color: var(--bnb-navy);
+        text-decoration: underline;
+      }
+    }
+}
+
+.empty-state {
+    text-align: center;
+    padding: var(--space-lg);
+    background: var(--bnb-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    color: var(--bnb-grey-muted);
+}
+
+.cta-link {
+    display: inline-block;
+    margin-top: var(--space-sm);
+    color: var(--bnb-navy);
+    font-weight: 700;
+    text-decoration: none;
+  
+    &:hover {
+      text-decoration: underline;
+    }
+}
+  

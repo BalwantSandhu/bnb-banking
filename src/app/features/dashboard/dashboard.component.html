@@ -1,1 +1,44 @@
-<p>dashboard works!</p>
+<div class="dashboard-page">
+
+    <div class="welcome-banner">
+      <p class="welcome-greeting">{{ greeting }},</p>
+      <h1>Welcome back</h1>
+      <p class="welcome-sub">Let's make the most of your money.</p>
+    </div>
+  
+    <div class="summary-row">
+      <div class="summary-card">
+        <p class="summary-label">Total Balance</p>
+        <p class="summary-value">${{ totalBalance() | number:'1.2-2' }}</p>
+      </div>
+      <div class="summary-card">
+        <p class="summary-label">Accounts</p>
+        <p class="summary-value">{{ accountCount() }}</p>
+      </div>
+    </div>
+  
+    <div class="section-header">
+      <h2>Your Accounts</h2>
+      <a routerLink="/accounts/create" class="add-link">+ Add Account</a>
+    </div>
+  
+    <div class="accounts-grid" *ngIf="accounts().length > 0; else noAccounts">
+      <div class="account-card" *ngFor="let acc of accounts()" [ngClass]="'account-card--' + acc.type">
+        <p class="account-type-label">{{ acc.type === 'chequing' ? 'Chequing' : 'Savings' }}</p>
+        <p class="account-name">{{ acc.name }}</p>
+        <p class="account-balance">${{ acc.balance | number:'1.2-2' }}</p>
+        <div class="account-actions">
+          <a [routerLink]="['/transactions/history', acc.id]">History</a>
+          <a routerLink="/transactions/transfer">Transfer</a>
+        </div>
+      </div>
+    </div>
+  
+    <ng-template #noAccounts>
+      <div class="empty-state">
+        <p>You don't have any accounts yet.</p>
+        <a routerLink="/accounts/create" class="cta-link">Create your first account →</a>
+      </div>
+    </ng-template>
+  
+  </div>
