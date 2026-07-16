@@ -26,14 +26,13 @@
   .app-header-inner {
     max-width: 1100px;
     margin: 0 auto;
-    height: 80px;
+    height: 64px;
     padding: 0 var(--space-md);
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: nowrap;
     gap: 1rem;
-    position: relative;
   }
   
   .brand {
@@ -50,42 +49,6 @@
     max-width: 220px;
     flex-shrink: 0;
     object-fit: contain;
-  }
-  
-  .menu-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    width: 40px;
-    height: 40px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    flex-shrink: 0;
-  }
-
-  .menu-toggle[aria-expanded="true"] {
-    .hamburger-line:nth-child(1) {
-      transform: translateY(7.5px) rotate(45deg);
-    }
-    .hamburger-line:nth-child(2) {
-      opacity: 0;
-    }
-    .hamburger-line:nth-child(3) {
-      transform: translateY(-7.5px) rotate(-45deg);
-    }
-  }
-  
-  .hamburger-line {
-    display: block;
-    width: 24px;
-    height: 2.5px;
-    background: var(--bnb-white);
-    border-radius: 2px;
-    margin: 0 auto;
-    transition: transform 0.25s ease, opacity 0.25s ease;
   }
   
   .main-nav {
@@ -130,36 +93,53 @@
     }
   }
   
-  @media (max-width: 720px) {
-    .menu-toggle {
-      display: flex;
-    }
+  // Bottom tab bar — hidden by default, only shown on mobile
+  .bottom-nav {
+    display: none;
+  }
   
+  @media (max-width: 720px) {
+    // Hide the top nav links entirely on mobile — bottom-nav replaces them
     .main-nav {
       display: none;
-      position: absolute;
-      top: 64px;
+    }
+  
+    .app-content {
+      padding-bottom: 76px; // keeps content clear of the fixed bottom bar
+    }
+  
+    .bottom-nav {
+      display: flex;
+      position: fixed;
+      bottom: 0;
       left: 0;
       right: 0;
-      background: var(--bnb-navy-dark);
-      flex-direction: column;
-      gap: 0;
-      padding: var(--space-sm) var(--space-md);
-      box-shadow: var(--shadow-lg);
-  
-      &--open {
-        display: flex;
-      }
+      background: var(--bnb-white);
+      border-top: 1px solid var(--bnb-border);
+      box-shadow: 0 -2px 12px rgba(15, 23, 42, 0.08);
+      z-index: 20;
+      padding: 0.4rem 0;
   
       a {
-        padding: 0.85rem 0.5rem;
-        font-size: 0.95rem;
-        border-radius: 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.15rem;
+        text-decoration: none;
+        color: var(--bnb-grey-muted);
+        padding: 0.35rem 0;
+        font-size: 0.7rem;
+        font-weight: 600;
   
-        &:last-child {
-          border-bottom: none;
+        &.bottom-nav-active {
+          color: var(--bnb-navy);
         }
       }
+    }
+  
+    .bottom-nav-icon {
+      font-size: 1.3rem;
+      line-height: 1;
     }
   }

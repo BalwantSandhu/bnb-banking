@@ -2,27 +2,15 @@
 
 <header class="app-header">
   <div class="app-header-inner">
-    <a routerLink="/dashboard" class="brand" (click)="closeMobileMenu()">
+    <a routerLink="/dashboard" class="brand">
       <img src="images/bnb-logo.png" alt="BNB - Bank of New Brunswick logo" class="brand-logo" />
     </a>
 
-    <button
-      type="button"
-      class="menu-toggle"
-      (click)="toggleMobileMenu()"
-      [attr.aria-expanded]="mobileMenuOpen()"
-      aria-controls="main-nav"
-      aria-label="Toggle navigation menu">
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-    </button>
-
-    <nav class="main-nav" id="main-nav" aria-label="Main navigation" [class.main-nav--open]="mobileMenuOpen()">
-      <a routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" #rla1="routerLinkActive" [attr.aria-current]="rla1.isActive ? 'page' : null" (click)="closeMobileMenu()">Dashboard</a>
-      <a routerLink="/accounts/create" routerLinkActive="active-link" #rla2="routerLinkActive" [attr.aria-current]="rla2.isActive ? 'page' : null" (click)="closeMobileMenu()">Create Account</a>
-      <a routerLink="/transactions/transfer" routerLinkActive="active-link" #rla3="routerLinkActive" [attr.aria-current]="rla3.isActive ? 'page' : null" (click)="closeMobileMenu()">Transfer Funds</a>
-      <a routerLink="/transactions/history" routerLinkActive="active-link" #rla4="routerLinkActive" [attr.aria-current]="rla4.isActive ? 'page' : null" (click)="closeMobileMenu()">Transaction History</a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" #rla1="routerLinkActive" [attr.aria-current]="rla1.isActive ? 'page' : null">Dashboard</a>
+      <a routerLink="/accounts/create" routerLinkActive="active-link" #rla2="routerLinkActive" [attr.aria-current]="rla2.isActive ? 'page' : null">Create Account</a>
+      <a routerLink="/transactions/transfer" routerLinkActive="active-link" #rla3="routerLinkActive" [attr.aria-current]="rla3.isActive ? 'page' : null">Transfer Funds</a>
+      <a routerLink="/transactions/history" routerLinkActive="active-link" #rla4="routerLinkActive" [attr.aria-current]="rla4.isActive ? 'page' : null">Transaction History</a>
     </nav>
   </div>
 </header>
@@ -35,3 +23,23 @@
   <p>© 2026 BNB — Bank of New Brunswick. All rights reserved.</p>
   <p class="footer-sub">Take-Home Assessment — Banking Application</p>
 </footer>
+
+<!-- Bottom tab bar — mobile only -->
+<nav class="bottom-nav" aria-label="Main navigation (mobile)">
+  <a routerLink="/dashboard" routerLinkActive="bottom-nav-active" [routerLinkActiveOptions]="{exact: true}" #bla1="routerLinkActive" [attr.aria-current]="bla1.isActive ? 'page' : null">
+    <span class="bottom-nav-icon" aria-hidden="true">🏠</span>
+    <span class="bottom-nav-label">Home</span>
+  </a>
+  <a routerLink="/accounts/create" routerLinkActive="bottom-nav-active" #bla2="routerLinkActive" [attr.aria-current]="bla2.isActive ? 'page' : null">
+    <span class="bottom-nav-icon" aria-hidden="true">➕</span>
+    <span class="bottom-nav-label">New</span>
+  </a>
+  <a routerLink="/transactions/transfer" routerLinkActive="bottom-nav-active" #bla3="routerLinkActive" [attr.aria-current]="bla3.isActive ? 'page' : null">
+    <span class="bottom-nav-icon" aria-hidden="true">🔁</span>
+    <span class="bottom-nav-label">Transfer</span>
+  </a>
+  <a routerLink="/transactions/history" routerLinkActive="bottom-nav-active" #bla4="routerLinkActive" [attr.aria-current]="bla4.isActive ? 'page' : null">
+    <span class="bottom-nav-icon" aria-hidden="true">📋</span>
+    <span class="bottom-nav-label">History</span>
+  </a>
+</nav>
