@@ -109,6 +109,10 @@ export class TransferFundsComponent implements OnDestroy {
     }
   }
 
+  get hasEnoughAccounts(): boolean {
+    return this.accounts().length >= 2;
+  }
+
   closeModal(): void {
     this.showModal = false;
   }

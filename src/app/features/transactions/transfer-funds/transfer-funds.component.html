@@ -1,8 +1,14 @@
 <div class="transfer-funds-page">
     <h1>Transfer Funds</h1>
     <p class="subtitle">Move money between your accounts securely.</p>
+
+    <div class="empty-state" *ngIf="!hasEnoughAccounts">
+        <div class="empty-icon" aria-hidden="true">🏦</div>
+        <p>You need at least two accounts to make a transfer.</p>
+        <a routerLink="/accounts/create" class="cta-link">Create another account →</a>
+    </div>
   
-    <form [formGroup]="transferForm" (ngSubmit)="onSubmit()" novalidate>
+    <form *ngIf="hasEnoughAccounts" [formGroup]="transferForm" (ngSubmit)="onSubmit()" novalidate>
   
       <div class="from-to-group">
         <div class="form-field">

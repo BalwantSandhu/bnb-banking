@@ -23,10 +23,34 @@
           type="text"
           [(ngModel)]="searchTerm"
           (ngModelChange)="onSearchChange()"
-          placeholder="Search by amount, description, or account..."
+          placeholder="Search by amount, description, or acc..."
           aria-label="Search transactions"
         />
       </div>
+    </div>
+
+    <div class="date-filter">
+        <div class="form-field">
+          <label for="dateFrom">From date</label>
+          <input
+            id="dateFrom"
+            type="date"
+            [ngModel]="dateFrom()"
+            (ngModelChange)="onDateFromChange($event)"
+          />
+        </div>
+        <div class="form-field">
+          <label for="dateTo">To date</label>
+          <input
+            id="dateTo"
+            type="date"
+            [ngModel]="dateTo()"
+            (ngModelChange)="onDateToChange($event)"
+          />
+        </div>
+        <button type="button" class="clear-date-btn" *ngIf="dateFrom() || dateTo()" (click)="clearDateFilter()">
+          Clear dates
+        </button>
     </div>
   
     <div class="filter-chips" role="group" aria-label="Filter by transaction type">

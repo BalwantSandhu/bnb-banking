@@ -196,3 +196,52 @@
     font-size: 2.5rem;
     margin-bottom: var(--space-sm);
   }
+
+  .date-filter {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-md);
+  
+    .form-field {
+      flex: 1;
+      min-width: 160px;
+    }
+  }
+  
+  input[type="date"] {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1.5px solid var(--bnb-border);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-family: inherit;
+    box-sizing: border-box;
+    background: #FAFBFC;
+  
+    &:focus {
+      border-color: var(--bnb-navy);
+      background: var(--bnb-white);
+      box-shadow: 0 0 0 4px rgba(11, 37, 69, 0.08);
+      outline: none;
+    }
+  }
+  
+  .clear-date-btn {
+    padding: 0.85rem 1.1rem;
+    background: var(--bnb-white);
+    border: 1.5px solid var(--bnb-border);
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--bnb-grey-text);
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+  
+    &:hover {
+      border-color: var(--bnb-navy);
+      color: var(--bnb-navy);
+    }
+  }

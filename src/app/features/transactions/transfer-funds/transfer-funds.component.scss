@@ -133,3 +133,26 @@
     color: var(--bnb-red);
     margin-left: 2px;
   }
+
+  .empty-state {
+    text-align: center;
+    padding: var(--space-lg);
+    color: var(--bnb-grey-muted);
+  }
+  
+  .empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-sm);
+  }
+  
+  .cta-link {
+    display: inline-block;
+    margin-top: var(--space-sm);
+    color: var(--bnb-navy);
+    font-weight: 500;
+    text-decoration: none;
+  
+    &:hover {
+      text-decoration: underline;
+    }
+  }

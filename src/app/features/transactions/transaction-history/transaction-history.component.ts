@@ -18,6 +18,9 @@ export class TransactionHistoryComponent {
   searchTerm = '';
   activeFilter = signal<FilterOption>('all');
   visibleCount = signal<number>(PAGE_SIZE);
+  dateFrom = signal<string>('');
+  dateTo = signal<string>('');
+
 
   constructor(
     private accountService: AccountService,
@@ -45,6 +48,22 @@ export class TransactionHistoryComponent {
     this.visibleCount.set(PAGE_SIZE);
   }
 
+  onDateFromChange(value: string): void {
+    this.dateFrom.set(value);
+    this.visibleCount.set(PAGE_SIZE);
+  }
+  
+  onDateToChange(value: string): void {
+    this.dateTo.set(value);
+    this.visibleCount.set(PAGE_SIZE);
+  }
+  
+  clearDateFilter(): void {
+    this.dateFrom.set('');
+    this.dateTo.set('');
+    this.visibleCount.set(PAGE_SIZE);
+  }
+
   loadMore(): void {
     this.visibleCount.set(this.visibleCount() + PAGE_SIZE);
   }
@@ -66,9 +85,22 @@ export class TransactionHistoryComponent {
 
   get allFilteredTransactions(): Transaction[] {
     const term = this.searchTerm.trim().toLowerCase();
-    const list = this.typeFiltered();
+    let list = this.typeFiltered();
+  
+    const from = this.dateFrom();
+    const to = this.dateTo();
+    if (from) {
+      const fromDate = new Date(from);
+      list = list.filter(tx => tx.timestamp >= fromDate);
+    }
+    if (to) {
+      const toDate = new Date(to);
+      toDate.setHours(23, 59, 59, 999);
+      list = list.filter(tx => tx.timestamp <= toDate);
+    }
+  
     if (!term) return list;
-
+  
     return list.filter(tx => {
       const descMatch = tx.description.toLowerCase().includes(term);
       const amountMatch = tx.amount.toFixed(2).includes(term) || tx.amount.toString().includes(term);
