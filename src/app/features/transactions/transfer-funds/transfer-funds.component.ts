@@ -58,10 +58,10 @@ export class TransferFundsComponent implements OnDestroy {
   get amount() { return this.transferForm.get('amount'); }
   get note() { return this.transferForm.get('note'); }
 
-  selectedFromBalance = computed(() => {
+  selectedFromBalance() : number | null {
     const id = this.transferForm?.get('fromAccountId')?.value;
     return this.accountService.getAccountById(id)?.balance ?? null;
-  });
+  };
 
   availableToAccounts() {
     const fromId = this.transferForm.get('fromAccountId')?.value;
